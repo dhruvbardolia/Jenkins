@@ -1,0 +1,14 @@
+pipeline {
+    agent any
+    parameters {
+        choice choices: ['start-instances', 'stop-instances'], description: 'for starting and stoping instance', name: 'startstopinstance'
+    }  
+    stages {
+        stage('Build') {
+            steps {
+                sh "aws ec2 ${params.startstopinstance} --instance-ids i-0e89ae95939810216"
+            }
+        }
+        
+    }
+}
