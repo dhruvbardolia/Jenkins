@@ -8,8 +8,7 @@ pipeline {
         stage('Build') {
             steps {
                 // sh "aws ecr create-repository --repository-name ${params.reponame}"
-                sh "sudo -S docker build -t ${params.reponame} /home/ubuntu/Dockerfile"
-                sh"dhruv@123"
+                sh "echo dhruv@123 | sudo -S docker build -t ${params.reponame} /home/ubuntu/Dockerfile"
                 sh "sudo docker tag ${params.reponame}:latest 492538659766.dkr.ecr.us-east-1.amazonaws.com/${params.reponame}:latest"
                 sh "sudo docker push 492538659766.dkr.ecr.us-east-1.amazonaws.com/${params.reponame}:latest"
             }
