@@ -1,11 +1,11 @@
 pipeline {
     agent any
     parameters {
-        string defaultValue: 'dhruvbdemo', description: 'forcluster', name: 'clustername'
-        string defaultValue: 'dhruvbdemo', description: 'forfamily', name: 'familyname'
-        string defaultValue: 'dhruvbdemo', description: 'forcontainer', name: 'containername'
-        string defaultValue: 'dhruvbdemo', description: 'forimage', name: 'imagename'
-        string defaultValue: 'dhruvbdemo', description: 'forservice', name: 'servicename'
+        string defaultValue: 'dhruvbcluster', description: 'forcluster', name: 'clustername'
+        string defaultValue: 'dhruvbfamily', description: 'forfamily', name: 'familyname'
+        string defaultValue: 'ddhruvbcontainer', description: 'forcontainer', name: 'containername'
+        string defaultValue: 'dhruvbimages', description: 'forimage', name: 'imagename'
+        string defaultValue: 'dhruvbservice', description: 'forservice', name: 'servicename'
         choice choices: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'], description: 'fordcount', name: 'dcount'
         string defaultValue: 'dhruvbdemo', description: 'forsubnet', name: 'subnet'
         string defaultValue: 'dhruvbdemo', description: 'forsg', name: 'sg'
@@ -14,19 +14,9 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh''' aws ecs create-cluster \
-                --cluster-name ${params.clustername} '''
-                sh''' aws ecs register-task-definition \
-                --family ${params.familyname} \
-                --container-definitions "[{\"name\":\"${params.containername}\",\"image\":\"${params.imagename}\",\"cpu\":1,\"memory\":1,\"essential\":false}]" '''
-                sh''' aws ecs create-service \
-                --cluster ${params.clustername} \
-                --service-name ${params.servicename} \
-                --task-definition ${params.imagename} \
-                --desired-count ${params.dcount} \
-                --launch-type FARGATE \
-                --platform-version LATEST \
-                --network-configuration "awsvpcConfiguration={subnets=[${params.subnet}],securityGroups=[${params.sg}],assignPublicIp=ENABLED}" '''
+                sh''' aws ecs create-cluster --cluster-name ${params.clustername} '''
+                sh''' aws ecs register-task-definition --family ${params.familyname} --container-definitions "[{\"name\":\"${params.containername}\",\"image\":\"${params.imagename}\",\"cpu\":1,\"memory\":1,\"essential\":false}]" '''
+                sh''' aws ecs create-service --cluster ${params.clustername} --service-name ${params.servicename} --task-definition ${params.imagename} --desired-count ${params.dcount} --launch-type FARGATE --platform-version LATEST --network-configuration "awsvpcConfiguration={subnets=[${params.subnet}],securityGroups=[${params.sg}],assignPublicIp=ENABLED}" '''
             }
         }
         
