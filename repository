@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        text defaultValue: 'DhruvBdemo', name: 'reponame'
+        text defaultValue: 'dhruvbdemo', name: 'reponame'
     }
   
     stages {
