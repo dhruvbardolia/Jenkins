@@ -8,9 +8,9 @@ pipeline {
         stage('Build') {
             steps {
                 sh "aws ecr create-repository --repository-name ${params.reponame}"
-                sh "docker build -t dhruvb ."
-                sh "docker tag dhruvb:latest 492538659766.dkr.ecr.us-east-1.amazonaws.com/dhruvb:latest"
-                sh "docker push 492538659766.dkr.ecr.us-east-1.amazonaws.com/dhruvb:latest"
+                sh "docker build -t ${params.reponame} ."
+                sh "docker tag ${params.reponame}:latest 492538659766.dkr.ecr.us-east-1.amazonaws.com/${params.reponame}:latest"
+                sh "docker push 492538659766.dkr.ecr.us-east-1.amazonaws.com/${params.reponame}:latest"
             }
         }
         
