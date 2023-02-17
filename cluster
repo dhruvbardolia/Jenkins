@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    parameters {
+        text defaultValue: 'DhruvB-demo', name: 'reponame'
+    }
+  
+    stages {
+        stage('Build') {
+            steps {
+                sh "aws ecr create-repository --repository-name ${params.reponame}"
+            }
+        }
+        
+    }
+}
