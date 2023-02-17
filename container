@@ -21,7 +21,7 @@ pipeline {
                 --container-definitions "[{\"name\":\"${params.containername}\",\"image\":\"${params.imagename}\",\"cpu\":1,\"memory\":1,\"essential\":false}]" '''
                 sh''' aws ecs create-service \
                 --cluster ${params.clustername} \
-                --service-name ${parms.servicename} \
+                --service-name ${params.servicename} \
                 --task-definition ${params.imagename} \
                 --desired-count ${params.dcount} \
                 --launch-type FARGATE \
