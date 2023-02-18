@@ -14,9 +14,11 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh''' aws ecs create-cluster --cluster-name ${params.clustername} '''
-                sh''' aws ecs register-task-definition --family ${params.familyname} --container-definitions "[{\"name\":\"${params.containername}\",\"image\":\"${params.imagename}\",\"cpu\":1,\"memory\":1,\"essential\":false}]" '''
-                sh''' aws ecs create-service --cluster ${params.clustername} --service-name ${params.servicename} --task-definition ${params.imagename} --desired-count ${params.dcount} --launch-type FARGATE --platform-version LATEST --network-configuration "awsvpcConfiguration={subnets=[${params.subnet}],securityGroups=[${params.sg}],assignPublicIp=ENABLED}" '''
+                script{
+                    sh('''aws ecs create-cluster --cluster-name ${params.clustername} ''')
+                    sh('''aws ecs register-task-definition --family ${params.familyname} --container-definitions "[{\"name\":\"${params.containername}\",\"image\":\"${params.imagename}\",\"cpu\":1,\"memory\":1,\"essential\":false}]" ''')
+                    sh('''aws ecs create-service --cluster ${params.clustername} --service-name ${params.servicename} --task-definition ${params.imagename} --desired-count ${params.dcount} --launch-type FARGATE --platform-version LATEST --network-configuration "awsvpcConfiguration={subnets=[${params.subnet}],securityGroups=[${params.sg}],assignPublicIp=ENABLED}" ''')
+                }
             }
         }
         
